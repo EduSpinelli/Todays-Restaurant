@@ -1,0 +1,14 @@
+com/todays/restaurant/validator/UserVoteValidatorTest.class
+com/todays/restaurant/controller/VoteControllerTest.class
+com/todays/restaurant/validator/RestaurantVoteValidatorTest.class
+com/todays/restaurant/domain/model/builder/RestaurantBuilderTest.class
+com/todays/restaurant/repository/RestaurantRepositoryTest.class
+com/todays/restaurant/service/RestaurantServiceTest.class
+com/todays/restaurant/domain/model/RestaurantTest.class
+com/todays/restaurant/repository/WinnerRepositoryTest.class
+com/todays/restaurant/service/VoteServiceImplTest.class
+com/todays/restaurant/domain/model/WinnerTest.class
+com/todays/restaurant/domain/model/UserTest.class
+com/todays/restaurant/repository/UserRepositoryTest.class
+com/todays/restaurant/RestaurantTodayApplicationTests.class
+com/todays/restaurant/service/UserSerivceTest.class

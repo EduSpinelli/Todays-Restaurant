@@ -1,0 +1,26 @@
+<p>
+  Displaying {{ users.length }} users.
+</p>
+
+<table>
+  <thead>
+  <tr>
+    <th data-field="name">Name</th>
+    <th data-field="name">Data</th>
+  </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.name }}</td>
+      <td>{{ user.voteDate }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+  <a class="btn-floating btn-large waves-effect waves-light green"
+     routerLink="/users/new">
+    <i class="material-icons">add</i>
+  </a>
+</div>
