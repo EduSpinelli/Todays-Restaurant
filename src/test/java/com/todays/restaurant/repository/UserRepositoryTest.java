@@ -24,17 +24,17 @@ public class UserRepositoryTest {
   private UserRepository userRepository;
 
   @Test
-  public void whenFindByUserNameAndPassword_thenReturnUser() {
+  public void whenFindByUsernameAndPassword_thenReturnUser() {
     User grayson =
         User.createNew("grayson", "filhocinza", "Grayson", "squirrel", "grayson@squirrel.com");
     entityManager.persist(grayson);
     entityManager.flush();
 
     User found =
-        userRepository.findByUserNameAndPassword(grayson.getUserName(), grayson.getPassword());
+        userRepository.findByUsernameAndPassword(grayson.getUsername(), grayson.getPassword());
 
 
-    assertEquals(found.getUserName(), grayson.getUserName());
+    assertEquals(found.getUsername(), grayson.getUsername());
   }
 
 
@@ -52,7 +52,7 @@ public class UserRepositoryTest {
     List<User> usersFound = userRepository.findByVote(true);
 
     assertTrue(
-        usersFound.stream().anyMatch(user -> grayson.getUserName().equals(user.getUserName())));
+        usersFound.stream().anyMatch(user -> grayson.getUsername().equals(user.getUsername())));
   }
 
 }

@@ -20,7 +20,7 @@ public class UserVoteValidator {
   }
 
   public String validateUserVote(Vote vote) {
-    User user = userRepository.findByUserNameAndPassword(vote.getUserName(), vote.getPassword());
+    User user = userRepository.findByUsernameAndPassword(vote.getUsername(), vote.getPassword());
 
     if (user == null) {
       return USER_NOT_FOUND;

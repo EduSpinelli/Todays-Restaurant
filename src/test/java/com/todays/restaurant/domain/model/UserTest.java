@@ -13,7 +13,7 @@ public class UserTest {
         "eduardospinelli.dev@gmail.com");
 
     assertEquals(Long.valueOf(99999), user.getId());
-    assertEquals(String.valueOf("Eduardo"), user.getUserName());
+    assertEquals(String.valueOf("Eduardo"), user.getUsername());
     assertEquals(String.valueOf("Eduardo"), user.getPassword());
     assertEquals(String.valueOf("Eduardo"), user.getFirstName());
     assertEquals(String.valueOf("Spinelli"), user.getLastName());

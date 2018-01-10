@@ -9,7 +9,7 @@ public class UserBuilder {
 
   private Long id;
 
-  private final String userName;
+  private final String username;
 
   private final String password;
 
@@ -21,15 +21,15 @@ public class UserBuilder {
 
   private Boolean vote;
 
-  private UserBuilder(String userName, String password) {
-    checkNotNull(userName);
+  private UserBuilder(String username, String password) {
+    checkNotNull(username);
     checkNotNull(password);
-    this.userName = userName;
+    this.username = username;
     this.password = password;
   }
 
-  public static UserBuilder create(String userName, String password) {
-    return new UserBuilder(userName, password);
+  public static UserBuilder create(String username, String password) {
+    return new UserBuilder(username, password);
   }
 
   public UserBuilder withId(Long id) {
@@ -73,8 +73,8 @@ public class UserBuilder {
     return id;
   }
 
-  public String getUserName() {
-    return userName;
+  public String getUsername() {
+    return username;
   }
 
   public String getPassword() {

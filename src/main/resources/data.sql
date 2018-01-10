@@ -1,5 +1,5 @@
 /* User */
-insert into user (id, user_name, password, first_name, last_name, email, vote) values
+insert into user (id, username, password, first_name, last_name, email, vote) values
 (1, 'demo'      , 'demo'     , 'Eduardo'  , 'Spinelli', 'teste@here.me'          , 0),
 (2, 'admin'     , 'admin'    , 'Marcos'   , 'Castro'  , 'mcastro@here.me'        , 0),
 (3, 'user'      , 'user'     , 'Virginia' , 'Reynolds', 'vreynolds0@slashdot.org', 0),;

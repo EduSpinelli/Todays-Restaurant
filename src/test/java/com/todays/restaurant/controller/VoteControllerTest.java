@@ -78,7 +78,7 @@ import org.springframework.http.converter.HttpMessageConverter;
  @Test
  public void responseStatusOk_whenPostVote_thenReturnSucessMsg() throws Exception {
 
- Vote vote = Vote.createNewVote(user.getUserName(), user.getPassword(), restaurant.getName());
+ Vote vote = Vote.createNewVote(user.getUsername(), user.getPassword(), restaurant.getName());
 
  mockMvc.perform(post("/votes").content(this.json(vote)).contentType(contentType))
  .andExpect(status().isOk());

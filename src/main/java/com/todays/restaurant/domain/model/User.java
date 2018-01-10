@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import com.todays.restaurant.domain.builder.UserBuilder;
 
 @Entity
@@ -21,7 +20,7 @@ public class User implements Serializable {
   private Long id;
 
   @Column
-  private String userName;
+  private String username;
 
   @Column
   private String password;
@@ -38,13 +37,13 @@ public class User implements Serializable {
   @Column
   private Boolean vote;
 
-  private User() {}
+  public User() {}
 
-  private User(Long id, String userName, String password, String firstName, String lastName,
+  private User(Long id, String username, String password, String firstName, String lastName,
       String email, Boolean vote) {
     super();
     this.id = id;
-    this.userName = userName;
+    this.username = username;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -52,10 +51,10 @@ public class User implements Serializable {
     this.vote = vote;
   }
 
-  private User(String userName, String password, String firstName, String lastName, String email,
+  private User(String username, String password, String firstName, String lastName, String email,
       Boolean vote) {
     super();
-    this.userName = userName;
+    this.username = username;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -63,21 +62,21 @@ public class User implements Serializable {
     this.vote = vote;
   }
 
-  public static User createExistingUserWithVote(Long id, String userName, String password,
+  public static User createExistingUserWithVote(Long id, String username, String password,
       String firstName, String lastName, String email) {
 
-    return new User(id, userName, password, firstName, lastName, email, true);
+    return new User(id, username, password, firstName, lastName, email, true);
 
   }
 
 
-  public static User createNew(String userName, String password, String firstName, String lastName,
+  public static User createNew(String username, String password, String firstName, String lastName,
       String email) {
-    return new User(userName, password, firstName, lastName, email, false);
+    return new User(username, password, firstName, lastName, email, false);
   }
 
   public static User createByBuilder(UserBuilder userBuilder) {
-    return new User(userBuilder.getId(), userBuilder.getUserName(), userBuilder.getPassword(),
+    return new User(userBuilder.getId(), userBuilder.getUsername(), userBuilder.getPassword(),
         userBuilder.getFirstName(), userBuilder.getLastName(), userBuilder.getEmail(),
         userBuilder.getVote());
   }
@@ -98,12 +97,12 @@ public class User implements Serializable {
     this.id = id;
   }
 
-  public String getUserName() {
-    return userName;
+  public String getUsername() {
+    return username;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getPassword() {
@@ -155,7 +154,7 @@ public class User implements Serializable {
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
     result = prime * result + ((password == null) ? 0 : password.hashCode());
-    result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+    result = prime * result + ((username == null) ? 0 : username.hashCode());
     result = prime * result + ((vote == null) ? 0 : vote.hashCode());
     return result;
   }
@@ -194,10 +193,10 @@ public class User implements Serializable {
         return false;
     } else if (!password.equals(other.password))
       return false;
-    if (userName == null) {
-      if (other.userName != null)
+    if (username == null) {
+      if (other.username != null)
         return false;
-    } else if (!userName.equals(other.userName))
+    } else if (!username.equals(other.username))
       return false;
     if (vote == null) {
       if (other.vote != null)
@@ -209,7 +208,7 @@ public class User implements Serializable {
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", firstName="
+    return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName="
         + firstName + ", lastName=" + lastName + ", email=" + email + ", vote=" + vote + "]";
   }
 

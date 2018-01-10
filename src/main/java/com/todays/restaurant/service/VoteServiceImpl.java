@@ -24,15 +24,15 @@ public class VoteServiceImpl implements VoteService {
   @Override
   public void vote(Vote vote) {
 
-    markVoteInUser(vote.getUserName(), vote.getPassword());
+    markVoteInUser(vote.getUsername(), vote.getPassword());
 
     addNewVotoToRestaurant(vote.getRestaurantName());
 
   }
 
-  private void markVoteInUser(String userName, String password) {
+  private void markVoteInUser(String username, String password) {
 
-    User user = userRepository.findByUserNameAndPassword(userName, password);
+    User user = userRepository.findByUsernameAndPassword(username, password);
 
     user.vote();
 
