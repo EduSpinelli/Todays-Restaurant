@@ -1,4 +1,4 @@
-package com.todays.restaurant.domain.model.builder;
+package com.restaurant.choice.domain.model.builder;
 
 public class RestaurantBuilderTest {
 

@@ -1,4 +1,4 @@
- package com.todays.restaurant.controller;
+ package com.restaurant.choice.controller;
 
  import static org.junit.Assert.assertNotNull;
  import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

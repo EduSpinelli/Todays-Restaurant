@@ -1,4 +1,4 @@
-package com.todays.restaurant.validator;
+package com.restaurant.choice.validator;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

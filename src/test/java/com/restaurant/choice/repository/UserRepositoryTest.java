@@ -1,4 +1,4 @@
-package com.todays.restaurant.repository;
+package com.restaurant.choice.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

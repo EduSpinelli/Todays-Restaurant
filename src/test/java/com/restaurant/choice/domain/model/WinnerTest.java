@@ -1,4 +1,4 @@
-package com.todays.restaurant.domain.model;
+package com.restaurant.choice.domain.model;
 
 import static org.junit.Assert.assertEquals;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package com.todays.restaurant.service;
+package com.restaurant.choice.service;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
