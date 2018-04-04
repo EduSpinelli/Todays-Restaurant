@@ -33,7 +33,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     restaurants.forEach(Restaurant::clearVotes);
 
-    restaurantRepository.save(restaurants);
+    restaurantRepository.saveAll(restaurants);
 
     return restaurants;
   }

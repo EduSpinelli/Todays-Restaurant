@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     users.forEach(User::clearVote);
 
-    userRepository.save(users);
+    userRepository.saveAll(users);
 
     return users;
 

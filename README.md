@@ -2,7 +2,7 @@
 Java 8
 Maven 3+
 
-Para compilar - mvn clean install
+Para compilar - mvn clean package -DskipTests
 Para rodar entrar na pasta target e executar - java - jar restaurant-today-0.0.1-SNAPSHOT.jar 
 
 Para rodar testes mutantes mvn org.pitest:pitest-maven:mutationCoverage
