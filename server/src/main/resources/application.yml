@@ -41,3 +41,10 @@ restaurant.choice.security.jwt:
   refreshTokenExpTime: 60 # Minutes
   tokenIssuer: ""
   tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQus
+  
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 1000
+  route.authentication.path: /auth
+  route.authentication.refresh: /refresh

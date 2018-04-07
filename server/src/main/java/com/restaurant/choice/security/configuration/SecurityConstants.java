@@ -1,4 +1,4 @@
-package com.restaurant.choice.security.jwt;
+package com.restaurant.choice.security.configuration;
 
 public class SecurityConstants {
   public static final String SECRET = "SecretKeyToGenJWTs";
