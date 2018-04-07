@@ -44,7 +44,8 @@ restaurant.choice.security.jwt:
   
 jwt:
   header: Authorization
-  secret: mySecret
+  secret: bananaWithChocolate
   expiration: 1000
   route.authentication.path: /auth
   route.authentication.refresh: /refresh
+  route.authentication.signup: /sign-up

@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.pitest.reloc.xstream.converters.time.LocalDateConverter;
+
 @Entity
 @Table(name = "USER_SECURITY")
 public class UserSecurity {
@@ -68,6 +70,25 @@ public class UserSecurity {
 			@JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
 	private List<Authority> authorities;
+
+	public UserSecurity(@NotNull @Size(min = 4, max = 50) String username,
+			@NotNull @Size(min = 4, max = 100) String password, @NotNull @Size(min = 4, max = 50) String firstname,
+			@NotNull @Size(min = 4, max = 50) String lastname, @NotNull @Size(min = 4, max = 50) String email,
+			@NotNull Boolean enabled, List<Authority> authorities) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.enabled = enabled;
+		this.lastPasswordResetDate = new Date();
+		this.authorities = authorities;
+	}
+	
+	public UserSecurity() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Long getId() {
 		return id;

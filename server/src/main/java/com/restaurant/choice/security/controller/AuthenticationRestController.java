@@ -1,6 +1,8 @@
 package com.restaurant.choice.security.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +18,23 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restaurant.choice.domain.model.User;
+import com.restaurant.choice.repository.UserRepository;
 import com.restaurant.choice.security.jwt.JwtAuthenticationRequest;
 import com.restaurant.choice.security.jwt.JwtTokenUtil;
 import com.restaurant.choice.security.jwt.JwtUser;
+import com.restaurant.choice.security.model.Authority;
+import com.restaurant.choice.security.model.AuthorityName;
+import com.restaurant.choice.security.model.UserSecurity;
+import com.restaurant.choice.security.repository.UserSecurityRepository;
 import com.restaurant.choice.security.service.JwtAuthenticationResponse;
 
 @RestController
@@ -42,6 +52,22 @@ public class AuthenticationRestController {
     @Autowired
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
+    
+    @Autowired
+    private UserSecurityRepository applicationUserRepository;
+    
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+    @RequestMapping(value = "${jwt.route.authentication.signup}", method = RequestMethod.POST)
+	public void signUp(@RequestBody User user) {
+    	List<Authority> list = new ArrayList<Authority>();
+    	list.add(new Authority(2L, AuthorityName.ROLE_ADMIN));
+		UserSecurity newUser = new UserSecurity(user.getUsername(), 
+						bCryptPasswordEncoder.encode(user.getPassword()), "Abacaxi", "Abacaxi", "Abacaxi@.com", true, list);
+				
+		applicationUserRepository.save(newUser);
+	}
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {

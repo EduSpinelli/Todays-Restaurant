@@ -21,7 +21,17 @@ public class Authority {
 
 	@ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
 	private List<UserSecurity> users;
-
+	
+	public Authority(Long id, @NotNull AuthorityName name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	  
+	public Authority() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public Long getId() {
 		return id;
 	}
