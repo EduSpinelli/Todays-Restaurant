@@ -10,13 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EntityScan(basePackageClasses = {RestaurantChoiceApplication.class, Jsr310JpaConverters.class})
 @SpringBootApplication
 public class RestaurantChoiceApplication {
-
-  @Bean
-  public BCryptPasswordEncoder bCryptPasswordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-
   public static void main(String[] args) {
     SpringApplication.run(RestaurantChoiceApplication.class, args);
   }
