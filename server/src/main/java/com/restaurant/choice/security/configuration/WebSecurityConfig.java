@@ -42,7 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${jwt.route.authentication.path}")
     private String authenticationPath;
-
+    
+    @Value("${jwt.route.authentication.signup}")
+    private String authenticationSignup;
+    
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -78,6 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/h2-console/**/**").permitAll()
 
             .antMatchers("/auth/**").permitAll()
+            .antMatchers("/sign-up/**").permitAll()
             .anyRequest().authenticated();
 
         // Custom JWT based security filter
@@ -99,7 +103,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .ignoring()
             .antMatchers(
                 HttpMethod.POST,
-                authenticationPath
+                authenticationPath,
+                authenticationSignup
             )
 
             // allow anonymous resource requests

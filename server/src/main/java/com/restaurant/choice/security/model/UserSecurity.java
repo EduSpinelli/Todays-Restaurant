@@ -27,8 +27,9 @@ public class UserSecurity {
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-	@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
 	private Long id;
 
 	@Column(name = "USERNAME", length = 50, unique = true)
@@ -76,6 +77,7 @@ public class UserSecurity {
 			@NotNull @Size(min = 4, max = 50) String lastname, @NotNull @Size(min = 4, max = 50) String email,
 			@NotNull Boolean enabled, List<Authority> authorities) {
 		super();
+		this.id = 5L;
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;

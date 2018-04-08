@@ -60,8 +60,8 @@ public class AuthenticationRestController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
     @RequestMapping(value = "${jwt.route.authentication.signup}", method = RequestMethod.POST)
-	public void signUp(@RequestBody User user) {
-    	List<Authority> list = new ArrayList<Authority>();
+	public void signUp(@RequestBody UserSecurity user) {
+    	List<Authority> list = new ArrayList<>();
     	list.add(new Authority(2L, AuthorityName.ROLE_ADMIN));
 		UserSecurity newUser = new UserSecurity(user.getUsername(), 
 						bCryptPasswordEncoder.encode(user.getPassword()), "Abacaxi", "Abacaxi", "Abacaxi@.com", true, list);

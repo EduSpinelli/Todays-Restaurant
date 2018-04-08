@@ -49,3 +49,4 @@ jwt:
   route.authentication.path: /auth
   route.authentication.refresh: /refresh
   route.authentication.signup: /sign-up
+  
