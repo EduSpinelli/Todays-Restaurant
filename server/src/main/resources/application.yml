@@ -36,12 +36,6 @@ spring.data.rest.enable-enum-translation: true
 spring.jackson.mapper.infer-property-mutators: false	
 spring.jackson.serialization.write-dates-as-timestamps: false
 
-restaurant.choice.security.jwt:
-  tokenExpirationTime: 15 # Number of minutes
-  refreshTokenExpTime: 60 # Minutes
-  tokenIssuer: ""
-  tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQus
-  
 jwt:
   header: Authorization
   secret: bananaWithChocolate

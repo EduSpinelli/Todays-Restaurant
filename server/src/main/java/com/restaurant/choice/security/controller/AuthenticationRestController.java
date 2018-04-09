@@ -28,9 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.restaurant.choice.domain.model.User;
 import com.restaurant.choice.repository.UserRepository;
+import com.restaurant.choice.security.exceptions.AuthenticationException;
 import com.restaurant.choice.security.jwt.JwtAuthenticationRequest;
 import com.restaurant.choice.security.jwt.JwtTokenUtil;
 import com.restaurant.choice.security.jwt.JwtUser;
+import com.restaurant.choice.security.jwt.extractor.TokenExtractor;
 import com.restaurant.choice.security.model.Authority;
 import com.restaurant.choice.security.model.AuthorityName;
 import com.restaurant.choice.security.model.UserSecurity;
@@ -59,6 +61,10 @@ public class AuthenticationRestController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
+    @Autowired 
+    @Qualifier("jwtHeaderTokenExtractor") 
+    private TokenExtractor tokenExtractor;
+    
     @RequestMapping(value = "${jwt.route.authentication.signup}", method = RequestMethod.POST)
 	public void signUp(@RequestBody UserSecurity user) {
     	List<Authority> list = new ArrayList<>();
@@ -70,7 +76,7 @@ public class AuthenticationRestController {
 	}
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -83,9 +89,8 @@ public class AuthenticationRestController {
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-        String authToken = request.getHeader(tokenHeader);
-        final String token = authToken.substring(7);
+    public ResponseEntity<JwtAuthenticationResponse> refreshAndGetAuthenticationToken(HttpServletRequest request) {
+        final String token = tokenExtractor.extract(request.getHeader(tokenHeader));
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
 
