@@ -1,22 +1,32 @@
-## o Requisitos de ambiente necessários para compilar e rodar 
-Java 8
+## Example of REST API with JWT authentication using Spring Security, Spring Boot 2 and Spring Data Rest.
+Java 9
 Maven 3+
 
-Para compilar - mvn clean package -DskipTests
-Para rodar entrar na pasta target e executar - java - jar restaurant-today-0.0.1-SNAPSHOT.jar 
+For Compile mvn clean package 
 
-Para rodar testes mutantes mvn org.pitest:pitest-maven:mutationCoverage
+To run mutant tests mvn org.pitest:pitest-maven:mutationCoverage
 
-## Instruções de como utilizar o sistema.
-Foi contruida uma API Rest com String a mesma pode ser testa atravez do PostMan ou do navegador
+## Examples.
 
-Acessando a Rota localhost:8080/users são listados os usuários do sistema 
-Acessando a Rota localhost:8080/restaurants são listados os restaurantes já cadastrados
-Acessando a Rota localhost:8080/vote e fornecendo no formato abaixo sera acrescentado um voto para o usuário
+POST
+http://localhost:8199/sign-up
 {
-"userName":"user",
-"password":"user",
-"restaurantName":"Alvarez"
+    "username": "maxi",
+    "password": "maxi",
+    "firstname": "Maximilian,
+    "lastname": "Rollins",
+    "email": "max@rollins.com"
 }
 
-Acessando a Rota localhost;8080/winners são listados os restaurantes vencedores
+POST
+http://localhost:8199/auth
+{
+    "username": "maxi",
+    "password": "maxi"
+}
+
+GET
+http://localhost:8199/refresh
+
+GET
+http://localhost:8199/restaurants
