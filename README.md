@@ -13,7 +13,7 @@ http://localhost:8199/sign-up
 {
     "username": "maxi",
     "password": "maxi",
-    "firstname": "Maximilian,
+    "firstname": "Maximilian",
     "lastname": "Rollins",
     "email": "max@rollins.com"
 }
