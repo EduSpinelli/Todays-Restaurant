@@ -1,10 +1,10 @@
 package com.restaurant.choice.security.configuration;
 
-import java.net.PasswordAuthentication;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +17,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.restaurant.choice.configuration.CustomCorsFilter;
 import com.restaurant.choice.security.jwt.JwtAuthenticationEntryPoint;
 import com.restaurant.choice.security.jwt.JwtAuthorizationTokenFilter;
 import com.restaurant.choice.security.jwt.JwtTokenUtil;
+import com.restaurant.choice.security.jwt.extractor.TokenExtractor;
 import com.restaurant.choice.security.service.JwtUserDetailsService;
 
 @Configuration
@@ -41,6 +40,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtUserDetailsService jwtUserDetailsService;
 
+	@Autowired
+	@Qualifier("jwtHeaderTokenExtractor")
+	private TokenExtractor tokenExtractor;
+
 	@Value("${jwt.header}")
 	private String tokenHeader;
 
@@ -52,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(jwtUserDetailsService).passwordEncoder( new PasswordEncoderConfig().passwordEncoder());
+		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(new PasswordEncoderConfig().passwordEncoder());
 	}
 
 	@Bean
@@ -65,28 +68,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		List<String> permitAllEndpointList = Arrays.asList("/auth/**", "/sign-up/**", "/console");
 		JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(),
-				jwtTokenUtil, tokenHeader);
+				jwtTokenUtil, tokenHeader, tokenExtractor);
 
-		httpSecurity
-				.csrf()
-				.disable()
-				.exceptionHandling()
-				.authenticationEntryPoint(unauthorizedHandler)
-			.and()
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-				.authorizeRequests()
-				.antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
-				.permitAll()
-				.anyRequest()
-				.authenticated()
-			.and()
+		httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+				.antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()])).permitAll()
+				.anyRequest().authenticated().and()
 				.addFilterBefore(new CustomCorsFilter(), UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-				.headers()
-				.frameOptions()
-				.sameOrigin() // required to set for H2 else H2 Console will be blank.
+				.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class).headers()
+				.frameOptions().sameOrigin() // required to set for H2 else H2 Console will be blank.
 				.cacheControl();
 	}
 

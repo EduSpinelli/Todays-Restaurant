@@ -1,22 +1,19 @@
-package com.restaurant.choice.security.jwt;
+package com.restaurant.choice.security.model;
 
 import java.io.Serializable;
 
-/**
- * Created by stephan on 20.03.16.
- */
-public class  JwtAuthenticationRequest implements Serializable {
+public class  AuthenticationRequest implements Serializable {
 
     private static final long serialVersionUID = -8445943548965154778L;
 
     private String username;
     private String password;
 
-    public JwtAuthenticationRequest() {
+    public AuthenticationRequest() {
         super();
     }
 
-    public JwtAuthenticationRequest(String username, String password) {
+    public AuthenticationRequest(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
     }

@@ -20,19 +20,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restaurant.choice.domain.model.User;
-import com.restaurant.choice.repository.UserRepository;
 import com.restaurant.choice.security.exceptions.AuthenticationException;
-import com.restaurant.choice.security.jwt.JwtAuthenticationRequest;
 import com.restaurant.choice.security.jwt.JwtTokenUtil;
 import com.restaurant.choice.security.jwt.JwtUser;
 import com.restaurant.choice.security.jwt.extractor.TokenExtractor;
+import com.restaurant.choice.security.model.AuthenticationRequest;
 import com.restaurant.choice.security.model.Authority;
 import com.restaurant.choice.security.model.AuthorityName;
 import com.restaurant.choice.security.model.UserSecurity;
@@ -76,7 +73,7 @@ public class AuthenticationRestController {
 	}
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) {
+    public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
