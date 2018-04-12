@@ -33,14 +33,19 @@ spring.jpa.properties.hibernate:
 spring.data.rest.enable-enum-translation: true
 
 #Jackson
-spring.jackson.mapper.infer-property-mutators: false	
-spring.jackson.serialization.write-dates-as-timestamps: false
+spring.jackson:
+  mapper.infer-property-mutators: false	
+  serialization.write-dates-as-timestamps: false
 
-jwt:
+
+restaurant.choice.security.jwt:
   header: Authorization
   secret: bananaWithChocolate
-  expiration: 1000
-  route.authentication.path: /auth
-  route.authentication.refresh: /refresh
-  route.authentication.signup: /sign-up
+  tokenExpirationTime: 15 # Number of minutes
+  refreshTokenExpTime: 60 # Minutes
+
+route.authentication:
+  auth: /login
+  refresh: /refresh
+  signup: /sign-up
   

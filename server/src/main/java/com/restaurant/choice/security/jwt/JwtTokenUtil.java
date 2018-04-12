@@ -7,15 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-//import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import com.restaurant.choice.security.configuration.JwtSettings;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -23,14 +26,10 @@ public class JwtTokenUtil implements Serializable {
     static final String CLAIM_KEY_USERNAME = "sub";
     static final String CLAIM_KEY_CREATED = "iat";
     private static final long serialVersionUID = -3301605591108950415L;
-    //@SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "It's okay here")
     private Clock clock = DefaultClock.INSTANCE;
 
-    @Value("${jwt.secret}")
-    private String secret;
-
-    @Value("${jwt.expiration}")
-    private Long expiration;
+    @Autowired
+    private JwtSettings jwtSettings;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -51,7 +50,7 @@ public class JwtTokenUtil implements Serializable {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-            .setSigningKey(secret)
+            .setSigningKey(jwtSettings.getSecret())
             .parseClaimsJws(token)
             .getBody();
     }
@@ -84,7 +83,7 @@ public class JwtTokenUtil implements Serializable {
             .setSubject(subject)
             .setIssuedAt(createdDate)
             .setExpiration(expirationDate)
-            .signWith(SignatureAlgorithm.HS512, secret)
+            .signWith(SignatureAlgorithm.HS512, jwtSettings.getSecret())
             .compact();
     }
 
@@ -104,7 +103,7 @@ public class JwtTokenUtil implements Serializable {
 
         return Jwts.builder()
             .setClaims(claims)
-            .signWith(SignatureAlgorithm.HS512, secret)
+            .signWith(SignatureAlgorithm.HS512, jwtSettings.getSecret())
             .compact();
     }
 
@@ -121,6 +120,6 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Date calculateExpirationDate(Date createdDate) {
-        return new Date(createdDate.getTime() + expiration * 1000);
+        return new Date(createdDate.getTime() + jwtSettings.getTokenExpirationTime() * 10000);
     }
 }

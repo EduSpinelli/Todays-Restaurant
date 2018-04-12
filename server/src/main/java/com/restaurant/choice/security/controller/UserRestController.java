@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restaurant.choice.security.configuration.JwtSettings;
 import com.restaurant.choice.security.jwt.JwtTokenUtil;
 import com.restaurant.choice.security.jwt.JwtUser;
 
 @RestController
 public class UserRestController {
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
+    @Autowired
+    private JwtSettings jwtSettings;
+    
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -29,7 +30,7 @@ public class UserRestController {
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public JwtUser getAuthenticatedUser(HttpServletRequest request) {
-        String token = request.getHeader(tokenHeader).substring(7);
+        String token = request.getHeader(jwtSettings.getHeader()).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
         return user;

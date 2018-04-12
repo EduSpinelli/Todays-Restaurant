@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restaurant.choice.security.configuration.JwtSettings;
+import com.restaurant.choice.security.configuration.RouteAuthenticationSettings;
 import com.restaurant.choice.security.exceptions.AuthenticationException;
 import com.restaurant.choice.security.jwt.JwtTokenUtil;
 import com.restaurant.choice.security.jwt.JwtUser;
@@ -38,8 +40,8 @@ import com.restaurant.choice.security.service.JwtAuthenticationResponse;
 @RestController
 public class AuthenticationRestController {
 
-	@Value("${jwt.header}")
-	private String tokenHeader;
+	@Autowired
+	private JwtSettings jwtSettings;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -61,7 +63,7 @@ public class AuthenticationRestController {
 	@Qualifier("jwtHeaderTokenExtractor")
 	private TokenExtractor tokenExtractor;
 
-	@RequestMapping(value = "${jwt.route.authentication.signup}", method = RequestMethod.POST)
+	@RequestMapping(value =  "${route.authentication.signup}", method = RequestMethod.POST)
 	public void signUp(@RequestBody UserSecurity user) {
 		List<Authority> list = new ArrayList<>();
 		list.add(new Authority(2L, AuthorityName.ROLE_ADMIN));
@@ -71,7 +73,7 @@ public class AuthenticationRestController {
 		applicationUserRepository.save(newUser);
 	}
 
-	@RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
+	@RequestMapping(value = "${route.authentication.auth}", method = RequestMethod.POST)
 	public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(
 			@RequestBody AuthenticationRequest authenticationRequest) {
 
@@ -85,9 +87,9 @@ public class AuthenticationRestController {
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 	}
 
-	@RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
+	@RequestMapping(value = "${route.authentication.refresh}", method = RequestMethod.GET)
 	public ResponseEntity<JwtAuthenticationResponse> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-		final String token = tokenExtractor.extract(request.getHeader(tokenHeader));
+		final String token = tokenExtractor.extract(request.getHeader(jwtSettings.getHeader()));
 		String username = jwtTokenUtil.getUsernameFromToken(token);
 		JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
 

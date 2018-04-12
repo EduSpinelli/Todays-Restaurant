@@ -39,19 +39,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtUserDetailsService jwtUserDetailsService;
-
+	
 	@Autowired
 	@Qualifier("jwtHeaderTokenExtractor")
 	private TokenExtractor tokenExtractor;
-
-	@Value("${jwt.header}")
-	private String tokenHeader;
-
-	@Value("${jwt.route.authentication.path}")
-	private String authenticationPath;
-
-	@Value("${jwt.route.authentication.signup}")
-	private String authenticationSignup;
+	
+	@Autowired
+	private JwtSettings jwtSettings;
+	
+	@Autowired
+	private RouteAuthenticationSettings routeAuthenticationSettings; 
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -66,9 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		List<String> permitAllEndpointList = Arrays.asList("/auth/**", "/sign-up/**", "/console");
+		List<String> permitAllEndpointList = Arrays.asList(routeAuthenticationSettings.getAuth(), routeAuthenticationSettings.getSignup(), "/console");
 		JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(),
-				jwtTokenUtil, tokenHeader, tokenExtractor);
+				jwtTokenUtil, jwtSettings.getHeader(), tokenExtractor);
 
 		httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -83,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// AuthenticationTokenFilter will ignore the below paths
-		web.ignoring().antMatchers(HttpMethod.POST, authenticationPath, authenticationSignup)
+		web.ignoring().antMatchers(HttpMethod.POST, routeAuthenticationSettings.getAuth(), routeAuthenticationSettings.getSignup())
 
 				// allow anonymous resource requests
 				.and().ignoring()
