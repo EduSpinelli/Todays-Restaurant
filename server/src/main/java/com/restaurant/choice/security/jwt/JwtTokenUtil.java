@@ -2,6 +2,8 @@ package com.restaurant.choice.security.jwt;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,12 +70,14 @@ public class JwtTokenUtil implements Serializable {
   }
 
   private String doGenerateToken(Map<String, Object> claims, String subject) {
-    final Date createdDate = clock.now();
-    final Date expirationDate = calculateExpirationDate(createdDate);
+    final LocalDateTime currentTime =
+        LocalDateTime.ofInstant(clock.now().toInstant(), ZoneId.systemDefault());
 
-    return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(createdDate)
-        .setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, jwtSettings.getSecret())
-        .compact();
+    return Jwts.builder().setClaims(claims).setSubject(subject)
+        .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
+        .setExpiration(Date.from(currentTime.plusMinutes(jwtSettings.getTokenExpirationTime())
+            .atZone(ZoneId.systemDefault()).toInstant()))
+        .signWith(SignatureAlgorithm.HS512, jwtSettings.getSecret()).compact();
   }
 
   public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
@@ -83,12 +87,13 @@ public class JwtTokenUtil implements Serializable {
   }
 
   public String refreshToken(String token) {
-    final Date createdDate = clock.now();
-    final Date expirationDate = calculateExpirationDate(createdDate);
+    final LocalDateTime currentTime =
+        LocalDateTime.ofInstant(clock.now().toInstant(), ZoneId.systemDefault());
 
     final Claims claims = getAllClaimsFromToken(token);
-    claims.setIssuedAt(createdDate);
-    claims.setExpiration(expirationDate);
+    claims.setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()));
+    claims.setExpiration(Date.from(currentTime.plusMinutes(jwtSettings.getRefreshTokenExpTime())
+        .atZone(ZoneId.systemDefault()).toInstant()));
 
     return Jwts.builder().setClaims(claims)
         .signWith(SignatureAlgorithm.HS512, jwtSettings.getSecret()).compact();
@@ -103,7 +108,4 @@ public class JwtTokenUtil implements Serializable {
         && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
   }
 
-  private Date calculateExpirationDate(Date createdDate) {
-    return new Date(createdDate.getTime() + jwtSettings.getTokenExpirationTime() * 10000);
-  }
 }

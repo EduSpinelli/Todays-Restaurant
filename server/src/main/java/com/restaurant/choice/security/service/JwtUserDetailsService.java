@@ -14,17 +14,15 @@ import com.restaurant.choice.security.repository.UserSecurityRepository;
 public class JwtUserDetailsService implements UserDetailsService {
 
   @Autowired
-  private UserSecurityRepository userRepository;
+  private UserSecurityRepository userSecurityRepository;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserSecurity user = userRepository.findByUsername(username);
-
-    if (user == null) {
-      throw new UsernameNotFoundException(
-          String.format("No user found with username '%s'.", username));
-    } else {
-      return JwtUserFactory.create(user);
-    }
+    
+    UserSecurity user = userSecurityRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException(
+            String.format("No user found with username '%s'.", username)));
+   
+    return JwtUserFactory.create(user);
   }
 }
