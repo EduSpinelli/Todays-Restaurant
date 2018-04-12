@@ -2,7 +2,6 @@ package com.restaurant.choice.security.model;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,142 +21,144 @@ import javax.validation.constraints.Size;
 @Table(name = "USER_SECURITY")
 public class UserSecurity {
 
-	@Id
-	@Column(name = "ID")
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
-	private Long id;
+  @Id
+  @Column(name = "ID")
+  // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+  private Long id;
 
-	@Column(name = "USERNAME", length = 50, unique = true)
-	@NotNull
-	@Size(min = 4, max = 50)
-	private String username;
+  @Column(name = "USERNAME", length = 50, unique = true)
+  @NotNull
+  @Size(min = 4, max = 50)
+  private String username;
 
-	@Column(name = "PASSWORD", length = 100)
-	@NotNull
-	@Size(min = 4, max = 100)
-	private String password;
+  @Column(name = "PASSWORD", length = 100)
+  @NotNull
+  @Size(min = 4, max = 100)
+  private String password;
 
-	@Column(name = "FIRSTNAME", length = 50)
-	@NotNull
-	@Size(min = 4, max = 50)
-	private String firstname;
+  @Column(name = "FIRSTNAME", length = 50)
+  @NotNull
+  @Size(min = 4, max = 50)
+  private String firstname;
 
-	@Column(name = "LASTNAME", length = 50)
-	@NotNull
-	@Size(min = 4, max = 50)
-	private String lastname;
+  @Column(name = "LASTNAME", length = 50)
+  @NotNull
+  @Size(min = 4, max = 50)
+  private String lastname;
 
-	@Column(name = "EMAIL", length = 50)
-	@NotNull
-	@Size(min = 4, max = 50)
-	private String email;
+  @Column(name = "EMAIL", length = 50)
+  @NotNull
+  @Size(min = 4, max = 50)
+  private String email;
 
-	@Column(name = "ENABLED")
-	@NotNull
-	private Boolean enabled;
+  @Column(name = "ENABLED")
+  @NotNull
+  private Boolean enabled;
 
-	@Column(name = "LASTPASSWORDRESETDATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	private Date lastPasswordResetDate;
+  @Column(name = "LASTPASSWORDRESETDATE")
+  @Temporal(TemporalType.TIMESTAMP)
+  @NotNull
+  private Date lastPasswordResetDate;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "USER_AUTHORITY", joinColumns = {
-			@JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
-					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
-	private List<Authority> authorities;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "USER_AUTHORITY",
+      joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+      inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+  private List<Authority> authorities;
 
-	public UserSecurity(@NotNull @Size(min = 4, max = 50) String username,
-			@NotNull @Size(min = 4, max = 100) String password, @NotNull @Size(min = 4, max = 50) String firstname,
-			@NotNull @Size(min = 4, max = 50) String lastname, @NotNull @Size(min = 4, max = 50) String email,
-			@NotNull Boolean enabled, List<Authority> authorities) {
-		super();
-		this.id = 5L;
-		this.username = username;
-		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.enabled = enabled;
-		this.lastPasswordResetDate = new Date();
-		this.authorities = authorities;
-	}
-	
-	public UserSecurity() {
-		// TODO Auto-generated constructor stub
-	}
+  public UserSecurity(@NotNull @Size(min = 4, max = 50) String username,
+      @NotNull @Size(min = 4, max = 100) String password,
+      @NotNull @Size(min = 4, max = 50) String firstname,
+      @NotNull @Size(min = 4, max = 50) String lastname,
+      @NotNull @Size(min = 4, max = 50) String email, @NotNull Boolean enabled,
+      List<Authority> authorities) {
+    super();
+    this.id = 5L;
+    this.username = username;
+    this.password = password;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.email = email;
+    this.enabled = enabled;
+    this.lastPasswordResetDate = new Date();
+    this.authorities = authorities;
+  }
 
-	public Long getId() {
-		return id;
-	}
+  public UserSecurity() {
+    // TODO Auto-generated constructor stub
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public String getUsername() {
-		return username;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+  public String getUsername() {
+    return username;
+  }
 
-	public String getPassword() {
-		return password;
-	}
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public String getFirstname() {
-		return firstname;
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+  public String getFirstname() {
+    return firstname;
+  }
 
-	public String getLastname() {
-		return lastname;
-	}
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+  public String getLastname() {
+    return lastname;
+  }
 
-	public String getEmail() {
-		return email;
-	}
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getEmail() {
+    return email;
+  }
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
+  public Boolean getEnabled() {
+    return enabled;
+  }
 
-	public List<Authority> getAuthorities() {
-		return authorities;
-	}
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
 
-	public void setAuthorities(List<Authority> authorities) {
-		this.authorities = authorities;
-	}
+  public List<Authority> getAuthorities() {
+    return authorities;
+  }
 
-	public Date getLastPasswordResetDate() {
-		return lastPasswordResetDate;
-	}
+  public void setAuthorities(List<Authority> authorities) {
+    this.authorities = authorities;
+  }
 
-	public void setLastPasswordResetDate(Date lastPasswordResetDate) {
-		this.lastPasswordResetDate = lastPasswordResetDate;
-	}
+  public Date getLastPasswordResetDate() {
+    return lastPasswordResetDate;
+  }
+
+  public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+    this.lastPasswordResetDate = lastPasswordResetDate;
+  }
 }
