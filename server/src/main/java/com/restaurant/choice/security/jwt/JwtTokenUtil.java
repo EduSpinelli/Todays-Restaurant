@@ -42,7 +42,7 @@ public class JwtTokenUtil implements Serializable {
   }
 
   public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-    final Claims claims = getAllClaimsFromToken(token);
+    final var claims = getAllClaimsFromToken(token);
     return claimsResolver.apply(claims);
   }
 
@@ -51,7 +51,7 @@ public class JwtTokenUtil implements Serializable {
   }
 
   private Boolean isTokenExpired(String token) {
-    final Date expiration = getExpirationDateFromToken(token);
+    final var expiration = getExpirationDateFromToken(token);
     return expiration.before(clock.now());
   }
 
@@ -65,12 +65,12 @@ public class JwtTokenUtil implements Serializable {
   }
 
   public String generateToken(UserDetails userDetails) {
-    Map<String, Object> claims = new HashMap<>();
+    var claims = new HashMap<String, Object>();
     return doGenerateToken(claims, userDetails.getUsername());
   }
 
   private String doGenerateToken(Map<String, Object> claims, String subject) {
-    final LocalDateTime currentTime =
+    final var currentTime =
         LocalDateTime.ofInstant(clock.now().toInstant(), ZoneId.systemDefault());
 
     return Jwts.builder().setClaims(claims).setSubject(subject)
@@ -81,16 +81,16 @@ public class JwtTokenUtil implements Serializable {
   }
 
   public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-    final Date created = getIssuedAtDateFromToken(token);
+    final var created = getIssuedAtDateFromToken(token);
     return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
         && (!isTokenExpired(token) || ignoreTokenExpiration(token));
   }
 
   public String refreshToken(String token) {
-    final LocalDateTime currentTime =
+    final var currentTime =
         LocalDateTime.ofInstant(clock.now().toInstant(), ZoneId.systemDefault());
 
-    final Claims claims = getAllClaimsFromToken(token);
+    final var claims = getAllClaimsFromToken(token);
     claims.setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()));
     claims.setExpiration(Date.from(currentTime.plusMinutes(jwtSettings.getRefreshTokenExpTime())
         .atZone(ZoneId.systemDefault()).toInstant()));
@@ -100,9 +100,9 @@ public class JwtTokenUtil implements Serializable {
   }
 
   public Boolean validateToken(String token, UserDetails userDetails) {
-    JwtUser user = (JwtUser) userDetails;
-    final String username = getUsernameFromToken(token);
-    final Date created = getIssuedAtDateFromToken(token);
+    var user = (JwtUser) userDetails;
+    final var username = getUsernameFromToken(token);
+    final var created = getIssuedAtDateFromToken(token);
     // final Date expiration = getExpirationDateFromToken(token);
     return (username.equals(user.getUsername()) && !isTokenExpired(token)
         && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));

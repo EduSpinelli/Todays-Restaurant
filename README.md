@@ -1,5 +1,5 @@
-## Example of REST API with JWT authentication using Spring Security, Spring Boot 2 and Spring Data Rest.
-Java 9
+## Example of REST API with JWT authentication using Spring Security, Spring Boot 2, Spring Data Rest and JAVA 10.
+Java 10
 Maven 3+
 
 For Compile mvn clean package 
