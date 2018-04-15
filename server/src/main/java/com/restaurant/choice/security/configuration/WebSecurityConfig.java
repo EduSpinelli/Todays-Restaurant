@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
-    List<String> permitAllEndpointList = Arrays.asList(routeAuthenticationSettings.getAuth(),
+    var permitAllEndpointList = Arrays.asList(routeAuthenticationSettings.getAuth(),
         routeAuthenticationSettings.getSignup(), "/console");
     JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(
         userDetailsService(), jwtTokenUtil, jwtSettings.getHeader(), tokenExtractor);
