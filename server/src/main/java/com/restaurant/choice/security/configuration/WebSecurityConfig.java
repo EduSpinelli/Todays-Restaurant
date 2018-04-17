@@ -1,7 +1,6 @@
 package com.restaurant.choice.security.configuration;
 
 import java.util.Arrays;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -69,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests()
-        .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
+        .antMatchers(permitAllEndpointList.toArray(new String[0]))
         .permitAll().anyRequest().authenticated().and()
         .addFilterBefore(new CustomCorsFilter(), UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
@@ -79,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Override
-  public void configure(WebSecurity web) throws Exception {
+  public void configure(WebSecurity web) {
     // AuthenticationTokenFilter will ignore the below paths
     web.ignoring()
         .antMatchers(HttpMethod.POST, routeAuthenticationSettings.getAuth(),

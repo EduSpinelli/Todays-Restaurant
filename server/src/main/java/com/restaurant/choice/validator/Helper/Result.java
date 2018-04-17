@@ -2,7 +2,7 @@ package com.restaurant.choice.validator.Helper;
 
 public class Result {
 
-  String msg;
+  private String msg;
 
   public Result() {
     this.msg = "";

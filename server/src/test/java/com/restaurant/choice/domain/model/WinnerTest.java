@@ -1,6 +1,8 @@
 package com.restaurant.choice.domain.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.time.LocalDate;
 import org.junit.Test;
 
@@ -16,7 +18,7 @@ public class WinnerTest {
 
     Winner winner = Winner.createNewWinner(restaurant);
 
-    assertEquals(null, winner.getId());
+    assertNull(winner.getId());
     assertEquals(LocalDate.now(), winner.getVoteDate());
     assertEquals(Long.valueOf(1), winner.getRestaurant().getId());
   }

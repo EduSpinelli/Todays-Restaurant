@@ -13,6 +13,6 @@ import com.restaurant.choice.domain.model.Winner;
 public interface WinnerRepository extends PagingAndSortingRepository<Winner, Long> {
 
   @Query("SELECT e FROM Winner e WHERE e.voteDate > :dateOfWeek")
-  public List<Winner> findWinnersInLastWeekByDate(@Param("dateOfWeek") LocalDate expDate);
+  List<Winner> findWinnersInLastWeekByDate(@Param("dateOfWeek") LocalDate expDate);
 
 }

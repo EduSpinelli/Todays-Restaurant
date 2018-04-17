@@ -9,10 +9,10 @@ import com.restaurant.choice.domain.model.User;
 @RepositoryRestResource(collectionResourceRel = "users", path = "users")
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
-	public User findByUsername(String username);
+	User findByUsername(String username);
 
-	public User findByUsernameAndPassword(String username, String password);
+	User findByUsernameAndPassword(String username, String password);
 
-	public List<User> findByVote(Boolean vote);
+	List<User> findByVote(Boolean vote);
 
 }

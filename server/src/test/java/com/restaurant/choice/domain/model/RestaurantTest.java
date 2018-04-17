@@ -1,6 +1,8 @@
 package com.restaurant.choice.domain.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import org.junit.Test;
 
 import com.restaurant.choice.domain.builder.RestaurantBuilder;
@@ -17,7 +19,7 @@ public class RestaurantTest {
     assertEquals(Long.valueOf(1), restaurante.getId());
     assertEquals(String.valueOf("Test"), restaurante.getName());
     assertEquals(Integer.valueOf(2), restaurante.getNumberVotes());
-    assertEquals(null, restaurante.getWinners());
+    assertNull(restaurante.getWinners());
   }
 
 }

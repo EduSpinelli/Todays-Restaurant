@@ -52,15 +52,14 @@ public class User implements Serializable {
     this.vote = vote;
   }
 
-  private User(String username, String password, String firstName, String lastName, String email,
-      Boolean vote) {
+  private User(String username, String password, String firstName, String lastName, String email) {
     super();
     this.username = username;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.vote = vote;
+    this.vote = false;
   }
 
   public static User createExistingUserWithVote(Long id, String username, String password,
@@ -73,7 +72,7 @@ public class User implements Serializable {
 
   public static User createNew(String username, String password, String firstName, String lastName,
       String email) {
-    return new User(username, password, firstName, lastName, email, false);
+    return new User(username, password, firstName, lastName, email);
   }
 
   public static User createByBuilder(UserBuilder userBuilder) {
@@ -200,11 +199,8 @@ public class User implements Serializable {
     } else if (!username.equals(other.username))
       return false;
     if (vote == null) {
-      if (other.vote != null)
-        return false;
-    } else if (!vote.equals(other.vote))
-      return false;
-    return true;
+        return other.vote == null;
+    } else return vote.equals(other.vote);
   }
 
   @Override

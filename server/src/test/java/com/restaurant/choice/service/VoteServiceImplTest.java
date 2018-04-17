@@ -14,7 +14,7 @@ import com.restaurant.choice.service.VoteService;
 public class VoteServiceImplTest {
 
   @Test
-  public void markVoteInUserTestInvoke() throws Exception {
+  public void markVoteInUserTestInvoke() {
 
     VoteService voteService = mock(VoteService.class);
 

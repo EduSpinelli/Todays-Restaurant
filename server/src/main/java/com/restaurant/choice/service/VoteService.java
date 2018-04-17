@@ -4,7 +4,7 @@ import com.restaurant.choice.domain.vo.Vote;
 
 public interface VoteService {
 
-  public void vote(Vote vote);
+  void vote(Vote vote);
 
 }
 

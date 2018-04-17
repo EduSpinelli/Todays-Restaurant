@@ -12,6 +12,6 @@ public class GenericExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<String> handle(Exception e) {
-        return new ResponseEntity<String>(e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 }

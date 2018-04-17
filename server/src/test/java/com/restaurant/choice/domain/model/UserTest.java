@@ -18,7 +18,7 @@ public class UserTest {
     assertEquals(String.valueOf("Eduardo"), user.getFirstName());
     assertEquals(String.valueOf("Spinelli"), user.getLastName());
     assertEquals(String.valueOf("eduardospinelli.dev@gmail.com"), user.getEmail());
-    assertEquals(Boolean.valueOf(true), user.getVote());
+    assertEquals(true, user.getVote());
 
   }
 

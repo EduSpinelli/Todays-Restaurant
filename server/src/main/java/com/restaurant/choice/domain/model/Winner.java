@@ -96,11 +96,8 @@ public class Winner implements Serializable {
     } else if (!restaurant.equals(other.restaurant))
       return false;
     if (voteDate == null) {
-      if (other.voteDate != null)
-        return false;
-    } else if (!voteDate.equals(other.voteDate))
-      return false;
-    return true;
+        return other.voteDate == null;
+    } else return voteDate.equals(other.voteDate);
   }
 
   @Override

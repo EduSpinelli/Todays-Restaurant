@@ -7,9 +7,9 @@ public enum ErrorCode {
 
     AUTHENTICATION(10), JWT_TOKEN_EXPIRED(11);
     
-    private int errorCode;
+    private final int errorCode;
 
-    private ErrorCode(int errorCode) {
+    ErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
 

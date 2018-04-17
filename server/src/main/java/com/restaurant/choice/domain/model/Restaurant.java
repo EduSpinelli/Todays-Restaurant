@@ -138,11 +138,8 @@ public class Restaurant implements Serializable {
     } else if (!numberVotes.equals(other.numberVotes))
       return false;
     if (winners == null) {
-      if (other.winners != null)
-        return false;
-    } else if (!winners.equals(other.winners))
-      return false;
-    return true;
+        return other.winners == null;
+    } else return winners.equals(other.winners);
   }
 
   @Override
