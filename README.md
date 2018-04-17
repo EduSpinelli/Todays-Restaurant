@@ -2,8 +2,7 @@
 Java 10
 Maven 3+
 
-For Compile mvn clean package 
-
+For Compile mvn clean package
 To run mutant tests mvn org.pitest:pitest-maven:mutationCoverage
 
 ## Examples.
