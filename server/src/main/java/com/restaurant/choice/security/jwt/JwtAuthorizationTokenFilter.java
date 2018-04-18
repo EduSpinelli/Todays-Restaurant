@@ -21,14 +21,14 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private final UserDetailsService  userDetailsService;
-  private final JwtTokenUtil jwtTokenUtil;
+  private final JwtToken jwtToken;
   private final String tokenHeader;
   private final TokenExtractor tokenExtractor;
 
   public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService,
-      JwtTokenUtil jwtTokenUtil, String tokenHeader, TokenExtractor tokenExtractor) {
+      JwtToken jwtToken, String tokenHeader, TokenExtractor tokenExtractor) {
     this.userDetailsService = userDetailsService;
-    this.jwtTokenUtil = jwtTokenUtil;
+    this.jwtToken = jwtToken;
     this.tokenHeader = tokenHeader;
     this.tokenExtractor = tokenExtractor;
   }
@@ -43,7 +43,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     String authToken = tokenExtractor.extract(requestHeader);
 
     try {
-      String username = jwtTokenUtil.getUsernameFromToken(authToken);
+      String username = jwtToken.getUsernameFromToken(authToken);
 
       logger.debug("checking authentication for user '{}'", username);
 
@@ -52,7 +52,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         logger.debug("security context was null, so authorizating user");
 
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-        if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+        if (jwtToken.validateToken(authToken, userDetails)) {
           UsernamePasswordAuthenticationToken authentication =
               new UsernamePasswordAuthenticationToken(userDetails, null,
                   userDetails.getAuthorities());

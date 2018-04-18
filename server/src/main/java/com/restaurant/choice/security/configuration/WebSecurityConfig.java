@@ -1,6 +1,8 @@
 package com.restaurant.choice.security.configuration;
 
 import java.util.Arrays;
+
+import com.restaurant.choice.security.jwt.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.restaurant.choice.configuration.CustomCorsFilter;
 import com.restaurant.choice.security.jwt.JwtAuthenticationEntryPoint;
 import com.restaurant.choice.security.jwt.JwtAuthorizationTokenFilter;
-import com.restaurant.choice.security.jwt.JwtTokenUtil;
 import com.restaurant.choice.security.jwt.extractor.TokenExtractor;
 import com.restaurant.choice.security.service.JwtUserDetailsService;
 
@@ -31,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private JwtAuthenticationEntryPoint unauthorizedHandler;
 
   @Autowired
-  private JwtTokenUtil jwtTokenUtil;
+  private JwtToken jwtToken;
 
   @Autowired
   private JwtUserDetailsService jwtUserDetailsService;
@@ -63,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     var permitAllEndpointList = Arrays.asList(routeAuthenticationSettings.getAuth(),
         routeAuthenticationSettings.getSignup(), "/console");
     JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(
-        userDetailsService(), jwtTokenUtil, jwtSettings.getHeader(), tokenExtractor);
+        userDetailsService(), jwtToken, jwtSettings.getHeader(), tokenExtractor);
 
     httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
