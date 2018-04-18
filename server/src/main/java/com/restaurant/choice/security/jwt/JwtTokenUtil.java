@@ -1,17 +1,12 @@
 package com.restaurant.choice.security.jwt;
 
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import com.restaurant.choice.security.configuration.JwtSettings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
@@ -19,11 +14,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
 
-class JwtTokenUtil implements Serializable {
+class JwtTokenUtil {
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_CREATED = "iat";
-    private static final long serialVersionUID = -3301605591108950415L;
     protected final Clock clock = DefaultClock.INSTANCE;
 
     @Autowired protected JwtSettings jwtSettings;

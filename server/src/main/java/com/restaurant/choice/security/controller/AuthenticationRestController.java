@@ -36,21 +36,37 @@ import com.restaurant.choice.security.service.JwtAuthenticationResponse;
 
 @RestController public class AuthenticationRestController {
 
-    @Autowired private JwtSettings jwtSettings;
+    private JwtSettings jwtSettings;
 
-    @Autowired private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
-    @Autowired private JwtToken jwtToken;
+    private JwtToken jwtToken;
 
-    @Autowired private RefreshToken refreshToken;
+    private RefreshToken refreshToken;
 
-    @Autowired @Qualifier("jwtUserDetailsService") private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
-    @Autowired private UserSecurityRepository applicationUserRepository;
+    private UserSecurityRepository userSecurityRepository;
 
-    @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired @Qualifier("jwtHeaderTokenExtractor") private TokenExtractor tokenExtractor;
+    private TokenExtractor tokenExtractor;
+
+    @Autowired public AuthenticationRestController(JwtSettings jwtSettings,
+        AuthenticationManager authenticationManager, JwtToken jwtToken, RefreshToken refreshToken,
+        @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService,
+        UserSecurityRepository userSecurityRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+        @Qualifier("jwtHeaderTokenExtractor") TokenExtractor tokenExtractor) {
+        this.jwtSettings = jwtSettings;
+        this.authenticationManager = authenticationManager;
+        this.jwtToken = jwtToken;
+        this.refreshToken = refreshToken;
+        this.userDetailsService = userDetailsService;
+        this.userSecurityRepository = userSecurityRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.tokenExtractor = tokenExtractor;
+    }
+
 
     @RequestMapping(value = "${route.authentication.signup}", method = RequestMethod.POST)
     public void signUp(@RequestBody UserSecurity user) {
@@ -60,7 +76,7 @@ import com.restaurant.choice.security.service.JwtAuthenticationResponse;
             new UserSecurity(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
                 user.getFirstname(), user.getLastname(), user.getEmail(), true, list);
 
-        applicationUserRepository.save(newUser);
+        userSecurityRepository.save(newUser);
     }
 
     @RequestMapping(value = "${route.authentication.auth}", method = RequestMethod.POST)

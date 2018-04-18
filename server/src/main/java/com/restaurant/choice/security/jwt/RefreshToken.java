@@ -10,7 +10,9 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Component
-public class RefreshToken extends JwtTokenUtil {
+public class RefreshToken extends JwtTokenUtil implements Serializable {
+
+  private static final long serialVersionUID = 9182814386245676110L;
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final var created = getIssuedAtDateFromToken(token);

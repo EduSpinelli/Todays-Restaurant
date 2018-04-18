@@ -3,11 +3,13 @@ package com.restaurant.choice.security.jwt;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
+import java.io.Serializable;
 import java.util.HashMap;
 
 @Component
-public class JwtToken extends JwtTokenUtil {
+public class JwtToken extends JwtTokenUtil implements Serializable{
+
+  private static final long serialVersionUID = -1400811183205347810L;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
